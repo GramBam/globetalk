@@ -1,0 +1,10 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+html,
+body,
+#root {
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+  padding: 0;
+  overflow: hidden;
+}
