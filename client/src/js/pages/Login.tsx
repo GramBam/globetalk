@@ -46,9 +46,8 @@ function Login() {
   }
 
   return (
-    <>
+    <div className="login-page">
       <h1>Login</h1>
-
       <section className="form">
         <form onSubmit={onSubmit}>
           <div>
@@ -78,7 +77,7 @@ function Login() {
           </div>
         </form>
       </section>
-    </>
+    </div>
   );
 }
 

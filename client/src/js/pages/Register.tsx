@@ -53,8 +53,8 @@ function Register() {
   }
 
   return (
-    <>
-      <section className="heading">
+    <div className="register-page">
+      <section>
         <h1>Register</h1>
         <p>Please create an account</p>
       </section>
@@ -72,7 +72,7 @@ function Register() {
               required
             />
           </div>
-          <div className="form-group">
+          <div>
             <input
               type="email"
               id="email"
@@ -83,7 +83,7 @@ function Register() {
               required
             />
           </div>
-          <div className="form-group">
+          <div>
             <input
               type="password"
               id="password"
@@ -94,7 +94,7 @@ function Register() {
               required
             />
           </div>
-          <div className="form-group">
+          <div>
             <input
               type="password"
               id="password2"
@@ -105,12 +105,12 @@ function Register() {
               required
             />
           </div>
-          <div className="form-group">
-            <button className="btn btn-block">Submit</button>
+          <div>
+            <button>Submit</button>
           </div>
         </form>
       </section>
-    </>
+    </div>
   );
 }
 
