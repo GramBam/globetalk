@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store";
 import { register } from "../redux/reducers/authReducer";
+import Button from "../components/common/Button";
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -54,59 +55,64 @@ function Register() {
 
   return (
     <div className="register-page">
-      <section>
-        <h1>Register</h1>
-        <p>Please create an account</p>
-      </section>
+      <h1 className="header">Register</h1>
 
-      <section>
+      <section className="form">
         <form onSubmit={onSubmit}>
-          <div>
+          <div className="group">
             <input
               type="text"
               id="username"
               name="username"
               value={username}
               onChange={onChange}
-              placeholder="Enter a username"
               required
             />
+            <span className="highlight"></span>
+            <span className="bar"></span>
+            <label>Username</label>
           </div>
-          <div>
+          <div className="group">
             <input
               type="email"
               id="email"
               name="email"
               value={email}
               onChange={onChange}
-              placeholder="Enter your email"
               required
             />
+            <span className="highlight"></span>
+            <span className="bar"></span>
+            <label>Email</label>
           </div>
-          <div>
+          <div className="group">
             <input
               type="password"
               id="password"
               name="password"
               value={password}
               onChange={onChange}
-              placeholder="Enter password"
               required
             />
+            <span className="highlight"></span>
+            <span className="bar"></span>
+            <label>Password</label>
           </div>
-          <div>
+          <div className="group">
             <input
               type="password"
               id="password2"
               name="password2"
               value={password2}
               onChange={onChange}
-              placeholder="Confirm password"
               required
             />
+            <span className="highlight"></span>
+            <span className="bar"></span>
+            <label>Confirm Password</label>
           </div>
           <div>
-            <button>Submit</button>
+            <Button label="Sign up" />
           </div>
         </form>
       </section>

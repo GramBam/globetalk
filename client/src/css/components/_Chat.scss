@@ -4,14 +4,14 @@
   flex-direction: column;
 
   .chat-header {
-    border-bottom: 1px solid $darker-grey;
+    border-bottom: 1px solid $grey;
     padding: 8px;
     background-color: $white;
   }
 
   .chat-input-container {
     flex: 1;
-    border-top: 2px solid $darker-grey;
+    border-top: 2px solid $grey;
     height: 20%;
     background-color: $white;
     display: flex;
@@ -28,10 +28,6 @@
     font-size: 14px;
     line-height: 20px;
     font-family: "Montserrat", sans-serif;
-
-    &:focus {
-      // border: 2px solid $dark-blue;
-    }
   }
 
   .contact-messages {
@@ -59,7 +55,7 @@
 
     a {
       text-decoration: underline;
-      color: #fff;
+      color: $white;
     }
   }
 
@@ -70,7 +66,7 @@
   }
 
   .sent {
-    background-color: #5965db;
+    background-color: $purple;
     align-self: flex-end;
   }
 }

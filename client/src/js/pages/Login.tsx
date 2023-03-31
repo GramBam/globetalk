@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store";
 import { login } from "../redux/reducers/authReducer";
+import Button from "../components/common/Button";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -47,33 +48,37 @@ function Login() {
 
   return (
     <div className="login-page">
-      <h1>Login</h1>
+      <h1 className="header">Login</h1>
       <section className="form">
         <form onSubmit={onSubmit}>
-          <div>
+          <div className="group">
             <input
               type="email"
               id="email"
               name="email"
               value={email}
               onChange={onChange}
-              placeholder="Enter your email"
               required
             />
+            <span className="highlight"></span>
+            <span className="bar"></span>
+            <label>Email</label>
           </div>
-          <div>
+          <div className="group">
             <input
               type="password"
               id="password"
               name="password"
               value={password}
               onChange={onChange}
-              placeholder="Enter password"
               required
             />
+            <span className="highlight"></span>
+            <span className="bar"></span>
+            <label>Password</label>
           </div>
           <div>
-            <button className="btn btn-block">Submit</button>
+            <Button label="Log in" />
           </div>
         </form>
       </section>

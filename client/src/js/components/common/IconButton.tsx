@@ -5,6 +5,7 @@ import {
   MdChevronRight,
   MdClose,
   MdFileCopy,
+  MdMenu,
   MdMic,
   MdMicOff,
   MdPause,
@@ -33,6 +34,7 @@ const iconMap = {
   MdCancel: <MdCancel />,
   MdChevronRight: <MdChevronRight />,
   MdChevronLeft: <MdChevronLeft />,
+  MdMenu: <MdMenu />,
 };
 
 export type IconName = keyof typeof iconMap;

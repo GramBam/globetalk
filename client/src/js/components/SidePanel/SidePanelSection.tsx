@@ -5,6 +5,7 @@ type SectionProps = {
   items: SectionItems;
   selected: string;
   setSelected: React.Dispatch<React.SetStateAction<string>>;
+  setCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 function SidePanelSection({
@@ -12,6 +13,7 @@ function SidePanelSection({
   items,
   selected,
   setSelected,
+  setCollapsed,
 }: SectionProps) {
   return (
     <div className="panel-section">
@@ -21,6 +23,7 @@ function SidePanelSection({
           className={`section-item ${selected === item.name && "selected"}`}
           key={item.name}
           onClick={() => {
+            setCollapsed(true);
             setSelected(item.name);
             item.callback && item.callback();
           }}

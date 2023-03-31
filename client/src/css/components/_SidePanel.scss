@@ -1,3 +1,8 @@
+.menu-btn {
+  align-self: flex-start;
+  position: absolute;
+}
+
 .side-panel {
   flex: 1;
   background-color: #1e2933;
@@ -6,8 +11,16 @@
   color: #ffffff;
   padding: 0 24px;
 
-  a {
-    color: #ffffff;
+  .panel-nav {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border-bottom: 1px solid #323e4a;
+    justify-content: center;
+
+    a {
+      color: #ffffff;
+    }
   }
 
   .title {
@@ -16,7 +29,6 @@
     line-height: 20px;
     text-transform: uppercase;
     font-weight: bold;
-    border-bottom: 1px solid #323e4a;
     padding: 16px 0;
   }
 
@@ -83,7 +95,7 @@
         cursor: pointer;
         background: none;
         border: none;
-        color: #fff;
+        color: $white;
         padding: 0 0 0 8px;
         width: 100%;
 
@@ -95,7 +107,7 @@
 
         &.selected {
           border-radius: 5px;
-          background-color: #5965db;
+          background-color: $purple;
         }
       }
     }
@@ -105,6 +117,26 @@
     margin: auto;
     .heart {
       color: #ff0000;
+    }
+  }
+
+  @media screen and (max-width: 1000px) {
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+
+    .user-section {
+      padding: 24px 20px;
+    }
+
+    .panel-sections {
+      padding: 0 20px;
+
+      .panel-section {
+        padding: 16px 0 8px 0;
+      }
     }
   }
 }

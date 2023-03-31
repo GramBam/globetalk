@@ -4,15 +4,18 @@ import connectDB from "./config/database";
 import path from "path";
 import http from "http";
 import userRouter from "./routes/userRoutes";
+import { useSocket } from "./config/useSocket";
+import { useRoutes } from "./config/useRoutes";
 
 dotenv.config();
 
 const app = express();
-new http.Server(app);
+const server: http.Server = http.createServer(app);
 
 const PORT = process.env.PORT || 5000;
 
 connectDB();
+const io = useSocket(server);
 
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb" }));
@@ -21,7 +24,7 @@ app.get("/", (req, res) => {
   res.send("Working!");
 });
 
-app.use("/api/users", userRouter);
+useRoutes(app);
 
 // Serve Frontend
 if (process.env.NODE_ENV === "production") {
@@ -36,6 +39,6 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log("\x1b[36m", `Server started on PORT ${PORT}`);
 });
