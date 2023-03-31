@@ -1,0 +1,110 @@
+.side-panel {
+  flex: 1;
+  background-color: #1e2933;
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+  padding: 0 24px;
+
+  a {
+    color: #ffffff;
+  }
+
+  .title {
+    font-size: 16px;
+    letter-spacing: 2px;
+    line-height: 20px;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-bottom: 1px solid #323e4a;
+    padding: 16px 0;
+  }
+
+  .user-section {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    gap: 8px;
+    border-bottom: 1px solid #323e4a;
+    width: -webkit-fill-available;
+    padding: 24px 0;
+
+    .user-avatar {
+      width: 35px;
+      height: 35px;
+      border-radius: 18px;
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+
+      .user-name {
+        font-size: 16px;
+        line-height: 20px;
+        font-weight: 500;
+        margin: 0;
+      }
+
+      .user-email {
+        font-size: 12px;
+        letter-spacing: 1px;
+        line-height: 20px;
+        text-transform: uppercase;
+        color: #9ba4b0;
+        font-weight: bold;
+        margin: 0;
+      }
+    }
+  }
+
+  .panel-sections {
+    border-bottom: 1px solid #323e4a;
+
+    .panel-section {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 24px 0 16px 0;
+
+      .section-title {
+        font-size: 12px;
+        letter-spacing: 1px;
+        line-height: 20px;
+        color: #9ba4b0;
+        font-weight: bold;
+      }
+
+      .section-item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        background: none;
+        border: none;
+        color: #fff;
+        padding: 0 0 0 8px;
+        width: 100%;
+
+        p {
+          font-size: 14px;
+          line-height: 20px;
+          font-weight: bold;
+        }
+
+        &.selected {
+          border-radius: 5px;
+          background-color: #5965db;
+        }
+      }
+    }
+  }
+
+  .panel-footer {
+    margin: auto;
+    .heart {
+      color: #ff0000;
+    }
+  }
+}

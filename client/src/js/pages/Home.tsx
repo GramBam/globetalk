@@ -1,4 +1,9 @@
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+
 function Home() {
-  return <div>Home</div>;
+  const { user } = useSelector((state: RootState) => state.auth);
+
+  return <div>{(user && user.username) || "home"}</div>;
 }
 export default Home;
