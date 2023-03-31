@@ -1,0 +1,109 @@
+.conversations {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: #ffffff;
+  border-right: 1px solid #eaedf3;
+
+  .nav {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid #d3d3d35e;
+    padding: 8px;
+    justify-content: space-around;
+
+    .title {
+      font-size: 14px;
+      line-height: 10px;
+      color: #323e4a;
+      font-weight: bold;
+    }
+
+    .new-convo {
+      background-color: unset;
+      border: none;
+      font-size: 10px;
+      letter-spacing: 1px;
+      line-height: 10px;
+      text-transform: uppercase;
+      color: #5965db;
+      font-weight: bold;
+      text-align: center;
+      border-radius: 3px;
+      background-color: #ebedfb;
+      padding: 10px;
+      cursor: pointer;
+    }
+  }
+}
+
+.contacts {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.contact {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  border-bottom: 1px solid #d3d3d35e;
+}
+
+.selected-contact {
+  background-color: #f6f9ff;
+  box-shadow: inset 5px 0px 0px #5965db;
+}
+
+.contact-name {
+  font-size: 16px;
+  line-height: 24px;
+  color: #323e4a;
+  font-weight: bold;
+}
+
+.contact-msg {
+  font-size: 11px;
+  color: #a5a5a5;
+  font-weight: lighter;
+}
+.chat-info {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+
+  .last-message {
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    font-size: 14px;
+    line-height: 20px;
+    color: #51606d;
+  }
+}
+
+.chat-date {
+  font-size: 12px;
+  color: #5a5a5a;
+  margin-bottom: 2px;
+}
+
+.chat-new {
+  padding: 2px 5px;
+  font-size: 11px;
+  border-radius: 2px;
+}
+.chat-status {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chat-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 19px;
+}

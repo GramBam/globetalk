@@ -8,8 +8,17 @@
 // Components
 @import "components/App";
 @import "components/SidePanel";
+@import "components/Chat";
+@import "components/Conversations";
+
+@import "components/common/IconButton";
+@import "components/common/LoadingDisplay";
+
+// Modals
+@import "components/modals/NewConvoModal";
 
 // Pages
 @import "components/pages/Home";
 @import "components/pages/Login";
 @import "components/pages/Register";
+@import "components/pages/Messages";
