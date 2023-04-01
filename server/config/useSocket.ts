@@ -20,7 +20,12 @@ const NEW_MESSAGE_EVENT = "newMessageEvent";
 const USER_TYPING_EVENT = "userTypingEvent";
 
 export const useSocket = (server: Server) => {
-  const io = new SocketServer(server);
+  const io = new SocketServer(server, {
+    cors: {
+      origin: "*",
+      credentials: true,
+    },
+  });
 
   io.on("connection", (socket) => {
     console.log("CONNECTED", socket.id);
@@ -31,7 +36,6 @@ export const useSocket = (server: Server) => {
     socket.on("sendMessage", (data) => {
       const { convo_id, user_id, otherUser_id, message } = data;
       const user = getUser(otherUser_id);
-      console.log(user, data);
       if (user) {
         io.to(user.socketId).emit("getMessage", {
           createdAt: Date.now(),

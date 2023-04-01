@@ -58,8 +58,6 @@ export const createConvo = asyncHandler(async (req, res) => {
 export const getConvos = asyncHandler(async (req, res) => {
   const { userID } = req.query;
 
-  console.log("HELLO");
-
   try {
     const userConvos = await Convo.find({
       members: { $elemMatch: { id: userID } },
