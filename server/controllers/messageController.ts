@@ -29,11 +29,12 @@ export const getMessages = asyncHandler(async (req, res) => {
   }
 });
 
-const deleteAllMessages = asyncHandler(async (req, res) => {
-  // const messages = await Message.find();
-  // for (let i = 0; i < messages.length; i++) {
-  //   const element = messages[i];
-  //   await Message.deleteOne(element);
-  //   console.log(element, "deleted");
-  // }
+export const deleteAllMessages = asyncHandler(async (req, res) => {
+  const messages = await Message.find();
+  for (let i = 0; i < messages.length; i++) {
+    const element = messages[i];
+    // @ts-ignore
+    await Message.deleteOne(element);
+    console.log(element, "deleted");
+  }
 });

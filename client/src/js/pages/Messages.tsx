@@ -1,36 +1,20 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { ConvosApi, GetConvoResponse } from "../api/ConvosApi";
+import { GetMessagesResponse } from "../api/MessagesAPI";
 import Chat from "../components/Chat";
 import Conversations from "../components/Conversations";
 import { RootState } from "../redux/store";
+import { isMobileDevice } from "../utils/isMobile";
 import socket from "../utils/socket";
-
-export type ConvoMember = {
-  username: string;
-  email: string;
-  id: string;
-  avatar: string;
-};
-
-export type ConvoResponse = {
-  members: ConvoMember[];
-  latest_message: GetMessagesResponse;
-  _id: string;
-};
-
-export type GetMessagesResponse = {
-  author: string;
-  convo_id: string;
-  content: string;
-  _id?: string;
-  createdAt?: string;
-};
 
 function Messages() {
   const { user } = useSelector((state: RootState) => state.auth);
-  const [currentConvo, setCurrentConvo] = useState<ConvoResponse>();
-  const [convos, setConvos] = useState<Array<ConvoResponse>>([]);
+  const [currentConvo, setCurrentConvo] = useState<GetConvoResponse>();
+  const [convos, setConvos] = useState<Array<GetConvoResponse>>([]);
+
+  const isMobile = isMobileDevice();
 
   useEffect(() => {
     socket.emit("addUser", user._id);
@@ -38,18 +22,11 @@ function Messages() {
 
   useEffect(() => {
     const getConvos = async () => {
-      await axios({
-        method: "GET",
-        url: "/api/convo/",
-        params: {
-          userID: user._id,
-        },
-      }).then((res: { data: ConvoResponse[] }) => {
-        setConvos(res.data);
-        if (!currentConvo && res.data[0]) {
-          setCurrentConvo(res.data[0]);
-        }
-      });
+      const response = await ConvosApi.getConvos(user._id);
+      setConvos(response);
+      if (!currentConvo && response[0] && !isMobile) {
+        setCurrentConvo(response[0]);
+      }
     };
 
     getConvos();
@@ -63,7 +40,7 @@ function Messages() {
       return convo;
     });
 
-    setConvos(updatedConvos as ConvoResponse[]);
+    setConvos(updatedConvos as GetConvoResponse[]);
   };
 
   return (
@@ -71,7 +48,7 @@ function Messages() {
       <Conversations
         convos={convos}
         setConvos={setConvos}
-        currentConvo={currentConvo}
+        currentConvo={currentConvo as GetConvoResponse}
         setCurrentConvo={setCurrentConvo}
         user={user}
       />

@@ -1,24 +1,24 @@
-import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import Linkify from "react-linkify";
-import { ConvoResponse, GetMessagesResponse } from "../pages/Messages";
 import socket from "../utils/socket";
 import LoadingDisplay from "./common/LoadingDisplay";
 import { User } from "../redux/reducers/authReducer";
+import { GetMessagesResponse, MessagesApi } from "../api/MessagesAPI";
+import { GetConvoResponse } from "../api/ConvosApi";
 
 function Chat({
   currentConvo,
   updateConvo,
   user,
 }: {
-  currentConvo: ConvoResponse;
+  currentConvo: GetConvoResponse;
   updateConvo: (data: GetMessagesResponse) => void;
   user: User;
 }) {
   const [messages, setMessages] = useState<Array<GetMessagesResponse>>([]);
   const [messagesLoading, setMessagesLoading] = useState<boolean>(false);
   const lastMessage = useRef<HTMLDivElement>(null);
-  const convoRef = useRef<ConvoResponse>(currentConvo);
+  const convoRef = useRef<GetConvoResponse>(currentConvo);
 
   const [userInput, setUserInput] = useState<string>("");
 
@@ -30,7 +30,6 @@ function Chat({
 
   const setSocketCallback = () => {
     socket.on("getMessage", (data: GetMessagesResponse) => {
-      console.log("RECIEVED:", data, convoRef.current);
       updateConvo(data);
       if (data.convo_id === convoRef.current._id) {
         setMessages((prev) => [...prev, data]);
@@ -46,7 +45,7 @@ function Chat({
     convoRef.current = currentConvo;
   }, [currentConvo]);
 
-  const submitMessage = () => {
+  const submitMessage = async () => {
     if (!currentConvo || !userInput) {
       return;
     }
@@ -66,34 +65,30 @@ function Chat({
       ...prev,
       { author: user_id, content: userInput, convo_id },
     ]);
-    axios({
-      method: "POST",
-      url: "/api/message/",
-      params: {
-        convo_id,
-        user_id,
-        content: userInput,
-      },
-    }).then((res: { data: GetMessagesResponse }) => {
-      updateConvo(res.data);
-      setUserInput("");
-    });
+
+    const newMessage: GetMessagesResponse = await MessagesApi.createMessage(
+      convo_id,
+      user_id,
+      userInput
+    );
+
+    console.log(newMessage);
+
+    updateConvo(newMessage);
+    setUserInput("");
   };
 
   useEffect(() => {
     setMessagesLoading(true);
+
     const getMessages = async () => {
-      await axios({
-        method: "GET",
-        url: "/api/message/",
-        params: {
-          convo_id: currentConvo?._id,
-        },
-      }).then((res) => {
-        setMessages(res.data);
-        setMessagesLoading(false);
-      });
+      const currentMessages: GetMessagesResponse[] =
+        await MessagesApi.getMessages(currentConvo._id);
+      console.log(currentMessages);
+      setMessages(currentMessages);
+      setMessagesLoading(false);
     };
+
     getMessages();
   }, [currentConvo]);
 

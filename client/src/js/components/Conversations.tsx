@@ -1,8 +1,9 @@
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { useState } from "react";
-import { ConvoResponse } from "../pages/Messages";
+import { Link } from "react-router-dom";
+import { ConvosApi, GetConvoResponse } from "../api/ConvosApi";
 import { User } from "../redux/reducers/authReducer";
-import { getTimeSince } from "../utils/getTimeSince";
+import ConvoItem from "./ConvoItem";
 import NewConvoModal from "./modals/NewConvoModal";
 
 function Conversations({
@@ -12,36 +13,23 @@ function Conversations({
   setConvos,
   user,
 }: {
-  currentConvo: ConvoResponse | undefined;
+  currentConvo: GetConvoResponse;
   setCurrentConvo: React.Dispatch<
-    React.SetStateAction<ConvoResponse | undefined>
+    React.SetStateAction<GetConvoResponse | undefined>
   >;
-  convos: ConvoResponse[];
-  setConvos: React.Dispatch<React.SetStateAction<ConvoResponse[]>>;
+  convos: GetConvoResponse[];
+  setConvos: React.Dispatch<React.SetStateAction<GetConvoResponse[]>>;
   user: User;
 }) {
   const [newConvoError, setNewConvoError] = useState<string>("");
   const [showConvoModal, setShowConvoModal] = useState<boolean>(false);
 
-  const getMessageDate = (ts: string) => {
-    const timeSince = getTimeSince(ts);
-    return timeSince === "Just Now" ? timeSince : timeSince + " ago";
-  };
-
   const openNewConvo = async (identifier: string) => {
     try {
-      await axios({
-        method: "POST",
-        url: "/api/convo/",
-        params: {
-          user1_id: user._id,
-          user2_id: identifier,
-        },
-      }).then((res) => {
-        setShowConvoModal(false);
-        setConvos((prev) => [res.data, ...prev]);
-        setCurrentConvo(res.data);
-      });
+      const newConvo = await ConvosApi.createConvo(user._id, identifier);
+      setShowConvoModal(false);
+      setConvos((prev) => [newConvo, ...prev]);
+      setCurrentConvo(newConvo);
     } catch (error) {
       setNewConvoError((error as AxiosError).response?.data as string);
     }
@@ -61,45 +49,14 @@ function Conversations({
           {!!convos.length &&
             convos.map((convo) => {
               return (
-                <div
-                  className={`contact ${
-                    convo._id === currentConvo?._id && "selected-contact"
-                  }`}
-                  key={convo._id}
-                  onClick={() => {
-                    setCurrentConvo(convo);
-                  }}
-                >
-                  <img
-                    className="chat-avatar"
-                    alt="Friend Avatar"
-                    src={
-                      convo.members.find(
-                        (member) => member.email !== user.email
-                      )?.avatar
-                    }
+                <Link to={`/messages/${convo._id}`}>
+                  <ConvoItem
+                    convo={convo}
+                    currentConvo={currentConvo}
+                    setCurrentConvo={setCurrentConvo}
+                    user={user}
                   />
-                  <div className="chat-info">
-                    <div className="contact-name">
-                      {
-                        convo.members.find(
-                          (member) => member.email !== user.email
-                        )?.username
-                      }{" "}
-                    </div>
-                    <div className="last-message">
-                      {!!convo.latest_message && convo.latest_message.content}
-                    </div>
-                  </div>
-                  <div className="chat-status">
-                    <div className="chat-date">
-                      {!!convo.latest_message &&
-                        getMessageDate(
-                          convo.latest_message.createdAt as string
-                        )}
-                    </div>
-                  </div>
-                </div>
+                </Link>
               );
             })}
         </div>
