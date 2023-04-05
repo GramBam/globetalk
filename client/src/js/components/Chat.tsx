@@ -5,16 +5,17 @@ import LoadingDisplay from "./common/LoadingDisplay";
 import { User } from "../redux/reducers/authReducer";
 import { GetMessagesResponse, MessagesApi } from "../api/MessagesAPI";
 import { GetConvoResponse } from "../api/ConvosApi";
+import { isMobileDevice } from "../utils/isMobile";
+import { Link } from "react-router-dom";
 
-function Chat({
-  currentConvo,
-  updateConvo,
-  user,
-}: {
+interface ChatProps {
   currentConvo: GetConvoResponse;
   updateConvo: (data: GetMessagesResponse) => void;
   user: User;
-}) {
+  resetConvo: () => void;
+}
+
+function Chat({ currentConvo, updateConvo, user, resetConvo }: ChatProps) {
   const [messages, setMessages] = useState<Array<GetMessagesResponse>>([]);
   const [messagesLoading, setMessagesLoading] = useState<boolean>(false);
   const lastMessage = useRef<HTMLDivElement>(null);
@@ -72,8 +73,6 @@ function Chat({
       userInput
     );
 
-    console.log(newMessage);
-
     updateConvo(newMessage);
     setUserInput("");
   };
@@ -84,7 +83,6 @@ function Chat({
     const getMessages = async () => {
       const currentMessages: GetMessagesResponse[] =
         await MessagesApi.getMessages(currentConvo._id);
-      console.log(currentMessages);
       setMessages(currentMessages);
       setMessagesLoading(false);
     };
@@ -94,7 +92,11 @@ function Chat({
 
   return (
     <div className="chat-container">
-      <div className="chat-header"></div>
+      {isMobileDevice() && (
+        <Link to="/messages">
+          <button onClick={resetConvo}>Back</button>
+        </Link>
+      )}
       <div className="contact-messages">
         {messagesLoading ? (
           <div className="loading-container">

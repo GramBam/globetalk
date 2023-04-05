@@ -15,7 +15,7 @@ function Conversations({
 }: {
   currentConvo: GetConvoResponse;
   setCurrentConvo: React.Dispatch<
-    React.SetStateAction<GetConvoResponse | undefined>
+    React.SetStateAction<GetConvoResponse | null>
   >;
   convos: GetConvoResponse[];
   setConvos: React.Dispatch<React.SetStateAction<GetConvoResponse[]>>;
@@ -49,7 +49,7 @@ function Conversations({
           {!!convos.length &&
             convos.map((convo) => {
               return (
-                <Link to={`/messages/${convo._id}`}>
+                <Link to={`/messages/${convo._id}`} key={convo._id}>
                   <ConvoItem
                     convo={convo}
                     currentConvo={currentConvo}

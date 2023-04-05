@@ -7,3 +7,14 @@
 .loading-container {
   height: 100%;
 }
+
+.no-convo-message {
+  flex: 2;
+  text-align: center;
+  display: flex;
+
+  h2 {
+    margin: 0 auto;
+    align-self: center;
+  }
+}

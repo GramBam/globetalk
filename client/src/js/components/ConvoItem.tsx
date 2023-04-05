@@ -6,7 +6,7 @@ interface ConvoItemProps {
   convo: GetConvoResponse;
   currentConvo: GetConvoResponse;
   setCurrentConvo: React.Dispatch<
-    React.SetStateAction<GetConvoResponse | undefined>
+    React.SetStateAction<GetConvoResponse | null>
   >;
   user: User;
 }

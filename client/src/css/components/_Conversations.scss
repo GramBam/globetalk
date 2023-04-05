@@ -40,6 +40,10 @@
 .contacts {
   flex: 1;
   overflow-y: auto;
+
+  a {
+    text-decoration: none;
+  }
 }
 
 .contact {
