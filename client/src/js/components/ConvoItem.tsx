@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { GetConvoResponse } from "../api/ConvosApi";
 import { User } from "../redux/reducers/authReducer";
 import { getTimeSince } from "../utils/getTimeSince";
@@ -21,6 +22,12 @@ function ConvoItem({
     const timeSince = getTimeSince(ts);
     return timeSince === "Just Now" ? timeSince : timeSince + " ago";
   };
+
+  const otherMember = useMemo(
+    () => convo.members.find((member) => member.email !== user.email),
+    [convo]
+  );
+
   return (
     <div
       className={`contact ${
@@ -34,17 +41,10 @@ function ConvoItem({
       <img
         className="chat-avatar"
         alt="Friend Avatar"
-        src={
-          convo.members.find((member) => member.email !== user.email)?.avatar
-        }
+        src={otherMember?.avatar}
       />
       <div className="chat-info">
-        <div className="contact-name">
-          {
-            convo.members.find((member) => member.email !== user.email)
-              ?.username
-          }{" "}
-        </div>
+        <div className="contact-name">{otherMember?.username} </div>
         <div className="last-message">
           {!!convo.latest_message && convo.latest_message.content}
         </div>

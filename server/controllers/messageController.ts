@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import Message from "../models/messageModel";
+import Convo from "../models/convoModel";
 
 export const createMessage = asyncHandler(async (req, res) => {
   const { convo_id, user_id, content } = req.query;
@@ -9,6 +10,15 @@ export const createMessage = asyncHandler(async (req, res) => {
       author: user_id,
       content,
     });
+
+    await Convo.findOneAndUpdate(
+      {
+        _id: convo_id,
+      },
+      {
+        last_message: { content, read_by: [user_id] },
+      }
+    );
     res.status(200).json(message);
   } catch (error) {
     res.status(500).json(500);

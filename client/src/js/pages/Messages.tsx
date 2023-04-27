@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { ConvosApi, GetConvoResponse } from "../api/ConvosApi";
-import { GetMessagesResponse } from "../api/MessagesAPI";
+import { GetMessagesResponse } from "../api/MessagesApi";
 import Chat from "../components/Chat";
 import Conversations from "../components/Conversations";
 import { RootState } from "../redux/store";

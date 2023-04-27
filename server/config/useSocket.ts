@@ -36,7 +36,6 @@ export const useSocket = (server: Server) => {
     socket.on("sendMessage", (data) => {
       const { convo_id, user_id, otherUser_id, message } = data;
       const user = getUser(otherUser_id);
-      console.log(user, data);
       if (user) {
         io.to(user.socketId).emit("getMessage", {
           createdAt: Date.now(),

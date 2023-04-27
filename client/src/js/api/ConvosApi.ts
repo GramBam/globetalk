@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GetMessagesResponse } from "./MessagesAPI";
+import { GetMessagesResponse } from "./MessagesApi";
 
 export type ConvoMember = {
   username: string;

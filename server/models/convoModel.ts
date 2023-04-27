@@ -13,6 +13,10 @@ const convoSchema = new Schema(
         },
       ],
     },
+    last_message: {
+      content: String,
+      read_by: [String],
+    },
   },
   { timestamps: true }
 );

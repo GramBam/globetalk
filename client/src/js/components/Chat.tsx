@@ -1,12 +1,13 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Linkify from "react-linkify";
 import socket from "../utils/socket";
 import LoadingDisplay from "./common/LoadingDisplay";
 import { User } from "../redux/reducers/authReducer";
-import { GetMessagesResponse, MessagesApi } from "../api/MessagesAPI";
+import { GetMessagesResponse, MessagesApi } from "../api/MessagesApi";
 import { GetConvoResponse } from "../api/ConvosApi";
 import { isMobileDevice } from "../utils/isMobile";
 import { Link } from "react-router-dom";
+import { MdChevronLeft } from "react-icons/md";
 
 interface ChatProps {
   currentConvo: GetConvoResponse;
@@ -45,6 +46,11 @@ function Chat({ currentConvo, updateConvo, user, resetConvo }: ChatProps) {
   useEffect(() => {
     convoRef.current = currentConvo;
   }, [currentConvo]);
+
+  const otherMember = useMemo(
+    () => currentConvo.members.find((member) => member.email !== user.email),
+    [currentConvo]
+  );
 
   const submitMessage = async () => {
     if (!currentConvo || !userInput) {
@@ -93,9 +99,21 @@ function Chat({ currentConvo, updateConvo, user, resetConvo }: ChatProps) {
   return (
     <div className="chat-container">
       {isMobileDevice() && (
-        <Link to="/messages">
-          <button onClick={resetConvo}>Back</button>
-        </Link>
+        <div className="chat-header">
+          <Link to="/messages">
+            <button onClick={resetConvo} className="back-button">
+              <MdChevronLeft />
+            </button>
+          </Link>
+          <div className="user-info">
+            <img
+              className="chat-avatar"
+              alt="Friend Avatar"
+              src={otherMember?.avatar}
+            />
+            <p>{otherMember?.username}</p>
+          </div>
+        </div>
       )}
       <div className="contact-messages">
         {messagesLoading ? (
@@ -103,17 +121,20 @@ function Chat({ currentConvo, updateConvo, user, resetConvo }: ChatProps) {
             <LoadingDisplay />
           </div>
         ) : messages.length ? (
-          messages.map((message, i) => (
-            <p
-              className={`direct-message ${
-                message.author === user._id ? "sent" : "recieved"
-              }`}
-              key={message._id + i.toString()}
-              ref={i === messages.length - 1 ? lastMessage : null}
-            >
-              <Linkify>{message.content}</Linkify>
-            </p>
-          ))
+          <>
+            {messages.map((message, i) => (
+              <p
+                className={`direct-message ${
+                  message.author === user._id ? "sent" : "recieved"
+                }`}
+                key={message._id + i.toString()}
+                ref={i === messages.length - 1 ? lastMessage : null}
+              >
+                <Linkify>{message.content}</Linkify>
+              </p>
+            ))}
+            {/* <p>Read</p> */}
+          </>
         ) : (
           <p>No messages yet</p>
         )}
